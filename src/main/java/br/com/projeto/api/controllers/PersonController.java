@@ -46,9 +46,11 @@ public class PersonController {
             person.setPhone(personDTO.getPhone());
             person.setSurname(personDTO.getSurname());
 
-            List<Unit> units;
+            List<Unit> units = personDTO.getUnits();
             // Caso o cadastro venha somente o ID da unidade
-            units = unitController.findUnitsbyId(personDTO.getUnitIds());
+            if (units == null || units.isEmpty()) {
+                units = unitController.findUnitsbyId(personDTO.getUnitIds());
+            }
 
             person.setUnits(units);
 
@@ -80,17 +82,27 @@ public class PersonController {
     }
 
     @PutMapping("/person")
-    public ResponseEntity<?> editPerson(@RequestBody Person updatedPerson) {
+    public ResponseEntity<?> editPerson(@RequestBody PersonDTO updatedPersonDTO) {
         try {
 
-            Optional<Person> existingPersonOptional = personRepository.findById(updatedPerson.getId());
+            Optional<Person> existingPersonOptional = personRepository.findByCPF(updatedPersonDTO.getCpf());
 
             if (!existingPersonOptional.isPresent()) {
                 return ResponseEntity.notFound().build();
             }
 
-            Person updateSave = personRepository.save(updatedPerson);
-            return ResponseEntity.ok(updateSave);
+            Person existingPerson = existingPersonOptional.get();
+            existingPerson.setName(updatedPersonDTO.getName());
+            existingPerson.setType(updatedPersonDTO.getType());
+            existingPerson.setEmail(updatedPersonDTO.getEmail());
+            existingPerson.setPhone(updatedPersonDTO.getPhone());
+            existingPerson.setSurname(updatedPersonDTO.getSurname());
+
+            List<Unit> units = unitController.findUnitsbyId(updatedPersonDTO.getUnitIds());
+            existingPerson.setUnits(units);
+
+            Person updatedPerson = personRepository.save(existingPerson);
+            return ResponseEntity.ok(updatedPerson);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Ocorreu um erro ao cadastrar a pessoa: " + getDetailsError(e.getMessage()));
