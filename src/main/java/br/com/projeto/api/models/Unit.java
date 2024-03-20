@@ -3,6 +3,7 @@ package br.com.projeto.api.models;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -35,7 +36,6 @@ public class Unit {
     @Column(nullable = false)
     private String floor;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "units")
     private List<Person> persons;
 
