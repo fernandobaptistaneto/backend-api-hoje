@@ -1,12 +1,5 @@
-package br.com.projeto.api.models;
+package br.com.projeto.api.model;
 
-import java.util.List;
-import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +9,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "units")
@@ -32,7 +28,7 @@ public class Unit {
 
     @Column(nullable = false)
     private String room;
-    
+
     @Column(nullable = false)
     private String floor;
 

@@ -1,8 +1,8 @@
-package br.com.projeto.api.dtos;
+package br.com.projeto.api.controller.dto;
 
 import java.util.List;
 
-import br.com.projeto.api.models.Person;
+import br.com.projeto.api.model.Person;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

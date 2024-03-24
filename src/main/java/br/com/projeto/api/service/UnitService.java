@@ -1,7 +1,7 @@
-package br.com.projeto.api.services;
+package br.com.projeto.api.service;
 
-import br.com.projeto.api.models.Unit;
-import br.com.projeto.api.repositories.UnitRepository;
+import br.com.projeto.api.model.Unit;
+import br.com.projeto.api.repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

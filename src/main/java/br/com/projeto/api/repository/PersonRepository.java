@@ -1,16 +1,15 @@
-package br.com.projeto.api.repositories;
+package br.com.projeto.api.repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
+import br.com.projeto.api.model.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import br.com.projeto.api.models.Person;
+import java.util.Optional;
 
-public interface PersonRepository extends CrudRepository<Person, UUID> {
+@Repository
+public interface PersonRepository extends JpaRepository<Person, Long> {
 
     // Testando Query feita na mão.
     // @Query("SELECT DISTINCT p FROM Person p INNER JOIN FETCH p.units")

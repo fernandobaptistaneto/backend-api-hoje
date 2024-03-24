@@ -1,18 +1,10 @@
-package br.com.projeto.api.models;
+package br.com.projeto.api.model;
 
-import java.util.List;
-import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -21,22 +13,32 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.UUID;
+
+import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.NONE;
+
 @Entity
-@Table(name = "persons")
+@Table(name = "person")
 @Getter
 @Setter
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(updatable = false)
+    @Setter(NONE)
+    private Long id;
+
+    private UUID uuid;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private String type;
-    
+
     @Column(nullable = false, unique = true)
     private String cpf;
 
@@ -48,11 +50,11 @@ public class Person {
     private String surname;
 
     @JsonIgnoreProperties("persons")
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
-        name = "persons_units", 
-        joinColumns = { @JoinColumn(name = "person_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "unit_id") }
+            name = "persons_units",
+            joinColumns = {@JoinColumn(name = "person_id")},
+            inverseJoinColumns = {@JoinColumn(name = "unit_id")}
     )
     private List<Unit> units;
 

@@ -1,9 +1,9 @@
-package br.com.projeto.api.utils;
+package br.com.projeto.api.util;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class Utils {
+public class UtilService {
     
     public String getDetailsError(String msgError) {
         String mensagemErro = msgError;

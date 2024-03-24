@@ -1,10 +1,11 @@
-package br.com.projeto.api.controllers;
+package br.com.projeto.api.controller;
 
-import br.com.projeto.api.models.Unit;
-import br.com.projeto.api.services.UnitService;
+import br.com.projeto.api.model.Unit;
+import br.com.projeto.api.service.UnitService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -28,7 +29,7 @@ public class UnitController {
     public Unit editar(@RequestBody Unit unit) {
         return unitService.editar(unit);
     }
-    
+
     @GetMapping("/unit/{id}")
     public Unit buscar(@PathVariable UUID id) {
         return unitService.findById(id);
