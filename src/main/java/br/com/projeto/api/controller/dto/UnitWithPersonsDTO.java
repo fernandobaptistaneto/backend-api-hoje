@@ -1,18 +1,19 @@
-package br.com.projeto.api.dtos;
+package br.com.projeto.api.controller.dto;
 
-import java.util.List;
-
-import br.com.projeto.api.models.Person;
+import br.com.projeto.api.model.Person;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class UnitDTO {
+public class UnitWithPersonsDTO {
 
     private String description;
     private String room;
     private String floor;
+    private List<Person> persons;
 }
