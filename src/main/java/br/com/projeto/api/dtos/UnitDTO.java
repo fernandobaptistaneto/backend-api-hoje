@@ -15,6 +15,4 @@ public class UnitDTO {
     private String description;
     private String room;
     private String floor;
-    private List<Person> persons;
-    private Person person;
 }
