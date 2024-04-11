@@ -4,14 +4,13 @@ import br.com.projeto.api.controller.dto.PersonDTO;
 import br.com.projeto.api.model.Person;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface PersonService {
+public interface PersonService extends GeneralService<Person> {
 
-    List<Person> findAll();
+    Person register(Person person);
 
-    Person register(PersonDTO personDTO);
-
-    Person edit(Long id, PersonDTO updatedPersonDTO);
+    Person edit(Long id, PersonDTO dto);
 
     String deletePerson(Long id);
 }

@@ -1,10 +1,10 @@
 package br.com.projeto.api.repository;
 
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
-
 import br.com.projeto.api.model.Unit;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UnitRepository extends CrudRepository<Unit, UUID> {
+@Repository
+public interface UnitRepository extends JpaRepository<Unit, Long> {
 
 }

@@ -1,37 +1,46 @@
 package br.com.projeto.api.controller;
 
+import br.com.projeto.api.controller.dto.UnitDTO;
+import br.com.projeto.api.controller.dto.factory.UnitDTOFactory;
 import br.com.projeto.api.model.Unit;
 import br.com.projeto.api.service.UnitService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.projeto.api.service.UnitServiceImpl;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
-public class UnitController {
+@RequestMapping("/units")
+public class UnitController extends AbstractController<UnitService, Unit> {
 
-    @Autowired
-    private UnitService unitService;
+    private final UnitServiceImpl service;
 
-    @PostMapping("/unit")
-    public Unit cadastrar(@RequestBody Unit unit) {
-        return unitService.cadastrar(unit);
+    private final UnitDTOFactory unitDTOFactory;
+
+    public UnitController(UnitServiceImpl service, UnitDTOFactory unitDTOFactory) {
+        super(service);
+        this.service = service;
+        this.unitDTOFactory = unitDTOFactory;
     }
 
-    @GetMapping("/units")
-    public Iterable<Unit> listar() {
-        return unitService.listar();
+    @PostMapping
+    public ResponseEntity<?> register(@RequestBody UnitDTO dto) {
+        return execute((s) -> s.register(unitDTOFactory.toUnit(dto)), "cadastrar");
     }
 
-    @PutMapping("/unit")
-    public Unit editar(@RequestBody Unit unit) {
-        return unitService.editar(unit);
+    @GetMapping
+    public List<Unit> findAll() {
+        return service.findAll();
     }
 
-    @GetMapping("/unit/{id}")
-    public Unit buscar(@PathVariable UUID id) {
-        return unitService.findById(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> edit(@PathVariable Long id, @RequestBody UnitDTO dto) {
+       return execute((s) -> s.edit(id, dto), "editar");
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return execute((s) -> s.delete(id), "deletar");
     }
 }

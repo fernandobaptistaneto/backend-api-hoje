@@ -1,61 +1,49 @@
 package br.com.projeto.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import br.com.projeto.api.controller.PersistentObject;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.UUID;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.NONE;
+import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
-@Table(name = "person")
+@Table(name = "person", uniqueConstraints = {
+                @UniqueConstraint(name = "uk_email__person", columnNames = "email"),
+                @UniqueConstraint(name = "uk_cpf__person", columnNames = "cpf"),
+                @UniqueConstraint(name = "uk_uuid__person", columnNames = "uuid")
+})
 @Getter
 @Setter
-public class Person {
+public class Person extends PersistentObject {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(updatable = false)
-    @Setter(NONE)
-    private Long id;
+        @Column(updatable = false, unique = true, nullable = false)
+        private UUID uuid = UUID.randomUUID();
 
-    private UUID uuid;
+        @Column(nullable = false)
+        private String name;
 
-    @Column(nullable = false)
-    private String name;
+        @Column(nullable = false)
+        private String type;
 
-    @Column(nullable = false)
-    private String type;
+        @Column(nullable = false, unique = true)
+        private String cpf;
 
-    @Column(nullable = false, unique = true)
-    private String cpf;
+        @Column(nullable = false, unique = true)
+        private String email;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+        private String phone;
 
-    private String phone;
+        private String surname;
 
-    private String surname;
-
-    @JsonIgnoreProperties("persons")
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(
-            name = "persons_units",
-            joinColumns = {@JoinColumn(name = "person_id")},
-            inverseJoinColumns = {@JoinColumn(name = "unit_id")}
-    )
-    private List<Unit> units;
+        @OneToMany(mappedBy = "person", cascade = ALL, orphanRemoval = true)
+        @ToString.Exclude
+        @JsonIgnore
+        private List<PersonUnit> personUnits;
 
 }
